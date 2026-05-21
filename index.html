@@ -20,6 +20,7 @@
         <nav class="nav">
           <a class="active" href="#scan">Scan</a>
           <a href="#evidence">Evidence</a>
+          <a href="#assets">Assets</a>
           <a href="#findings">Findings</a>
           <a href="#report">Report</a>
           <a href="#controls">Controls</a>
@@ -122,6 +123,23 @@
             <strong>Ready</strong>
             <small>Markdown export</small>
           </article>
+        </section>
+
+        <!-- Assets 섹션: 프론트엔드 스캐폴드용 더미 자산 목록 -->
+        <section class="assets-panel" id="assets" aria-label="자산 목록">
+          <div class="section-head">
+            <div>
+              <p class="overline">Assets</p>
+              <h2>자산 목록</h2>
+            </div>
+            <div>
+              <button class="button secondary" type="button" id="refreshAssets">새로고침</button>
+            </div>
+          </div>
+
+          <div class="assets-table" id="assetsList">
+            <!-- 더미 데이터가 여기에 렌더링 됩니다 -->
+          </div>
         </section>
 
         <section class="work-grid">

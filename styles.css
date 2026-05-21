@@ -402,6 +402,37 @@ h1 {
   font-size: 12px;
 }
 
+/* Assets panel styles */
+.assets-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.assets-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.assets-table th,
+.assets-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.assets-table th {
+  background: var(--surface-soft);
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.assets-table a.asset-link {
+  color: var(--accent);
+  font-weight: 700;
+}
+
 .work-grid {
   display: grid;
   grid-template-columns: 1fr 420px;

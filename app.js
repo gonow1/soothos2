@@ -103,3 +103,64 @@ function safeHost(value) {
     return "";
   }
 }
+
+// --- Frontend scaffold: dummy assets rendering ---
+const assets = [
+  {
+    id: 'asset-001',
+    name: 'service.company.co.kr',
+    subdomain: 'service.company.co.kr',
+    ip: '10.1.2.34',
+    status: 'active',
+    asset_type: 'web',
+    critical: 2,
+    high: 1,
+    last_seen: '2026-05-21T10:12:00'
+  },
+  {
+    id: 'asset-002',
+    name: 'api.company.co.kr',
+    subdomain: 'api.company.co.kr',
+    ip: '10.1.2.35',
+    status: 'active',
+    asset_type: 'api',
+    critical: 0,
+    high: 1,
+    last_seen: '2026-05-20T16:20:00'
+  }
+];
+
+function renderAssets() {
+  const container = document.getElementById('assetsList');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const table = document.createElement('table');
+  table.className = 'assets-grid';
+  const thead = document.createElement('thead');
+  thead.innerHTML = '<tr><th>ID</th><th>Name</th><th>IP</th><th>Type</th><th>Status</th><th>Critical</th><th>High</th><th>Last Seen</th></tr>';
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  assets.forEach(a => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${a.id}</td>
+      <td><a href="#" class="asset-link">${a.name}</a></td>
+      <td>${a.ip}</td>
+      <td>${a.asset_type}</td>
+      <td>${a.status}</td>
+      <td>${a.critical}</td>
+      <td>${a.high}</td>
+      <td>${a.last_seen}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderAssets();
+  document.getElementById('refreshAssets')?.addEventListener('click', renderAssets);
+});
