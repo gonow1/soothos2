@@ -1,0 +1,262 @@
+﻿<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SOOThos Console</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="rail" aria-label="SOOThos navigation">
+        <div class="brand">
+          <span class="brand-mark">S</span>
+          <div>
+            <strong>SOOThos</strong>
+            <small>Web Security</small>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <a class="active" href="#scan">Scan</a>
+          <a href="#evidence">Evidence</a>
+          <a href="#findings">Findings</a>
+          <a href="#report">Report</a>
+          <a href="#controls">Controls</a>
+        </nav>
+
+        <div class="rail-status">
+          <span>Allowlist</span>
+          <strong>4 domains</strong>
+          <small>*.company.co.kr</small>
+        </div>
+      </aside>
+
+      <main class="page">
+        <header class="page-head">
+          <div>
+            <p class="overline">AI Web Vulnerability Analyzer</p>
+            <h1>서비스 보안 인사이트</h1>
+          </div>
+          <div class="head-actions">
+            <button class="button secondary" type="button" data-scroll="#report">보고서</button>
+            <button class="button primary" type="button" id="runScan">분석 시작</button>
+          </div>
+        </header>
+
+        <section class="scan-console" id="scan">
+          <div class="scan-card">
+            <div class="section-head">
+              <div>
+                <p class="overline">Target</p>
+                <h2>분석 대상</h2>
+              </div>
+              <span class="pill success" id="domainState">Approved</span>
+            </div>
+
+            <label class="field">
+              <span>URL</span>
+              <input id="targetUrl" value="https://service.company.co.kr/login" />
+            </label>
+
+            <div class="mode-row" aria-label="분석 모드">
+              <button class="mode active" type="button" data-mode="quick">빠른 분석</button>
+              <button class="mode" type="button" data-mode="detailed">상세 분석</button>
+              <button class="mode" type="button" data-mode="report">보고서 분석</button>
+            </div>
+
+            <div class="collect-grid">
+              <label><input type="checkbox" checked />Header</label>
+              <label><input type="checkbox" checked />Cookie</label>
+              <label><input type="checkbox" checked />DOM</label>
+              <label><input type="checkbox" checked />Storage</label>
+              <label><input type="checkbox" checked />API Call</label>
+              <label><input type="checkbox" checked />Console Log</label>
+            </div>
+          </div>
+
+          <div class="mini-browser-card">
+            <div class="section-head">
+              <div>
+                <p class="overline">Preview</p>
+                <h2>분석 요약</h2>
+              </div>
+              <span class="mini-dot"></span>
+            </div>
+            <div class="mini-browser">
+              <div class="mini-url">service.company.co.kr/login</div>
+              <div class="mini-tabs">
+                <span class="on">Quick</span>
+                <span>Detail</span>
+                <span>Report</span>
+              </div>
+              <div class="mini-checks">
+                <span>Header</span>
+                <span>Cookie</span>
+                <span>DOM</span>
+                <span>Storage</span>
+              </div>
+              <button type="button">분석 시작</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="summary-grid" aria-label="분석 요약">
+          <article>
+            <span>Overall Risk</span>
+            <strong class="risk-medium" id="overallRisk">Medium</strong>
+            <small>AI 검토 대상</small>
+          </article>
+          <article>
+            <span>Findings</span>
+            <strong>4</strong>
+            <small>High 2 · Medium 1 · Low 1</small>
+          </article>
+          <article>
+            <span>Masked Fields</span>
+            <strong>12</strong>
+            <small>Cookie, Token, Password</small>
+          </article>
+          <article>
+            <span>Report</span>
+            <strong>Ready</strong>
+            <small>Markdown export</small>
+          </article>
+        </section>
+
+        <section class="work-grid">
+          <article class="panel evidence-panel" id="evidence">
+            <div class="section-head">
+              <div>
+                <p class="overline">Evidence</p>
+                <h2>수집 증적</h2>
+              </div>
+              <span class="pill neutral">Sanitized</span>
+            </div>
+            <div class="evidence-visual">
+              <div class="browser-frame">
+                <div class="browser-bar">
+                  <i></i><i></i><i></i>
+                  <span>service.company.co.kr/login</span>
+                </div>
+                <div class="page-map">
+                  <b></b>
+                  <div>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <em></em>
+                </div>
+              </div>
+              <dl class="evidence-list">
+                <div><dt>Headers</dt><dd>CSP, HSTS missing</dd></div>
+                <div><dt>Cookies</dt><dd>SESSIONID [MASKED]</dd></div>
+                <div><dt>DOM</dt><dd>Form 1, inline script 2</dd></div>
+                <div><dt>Storage</dt><dd>accessToken key</dd></div>
+              </dl>
+            </div>
+          </article>
+
+          <article class="panel findings-panel" id="findings">
+            <div class="section-head">
+              <div>
+                <p class="overline">Findings</p>
+                <h2>취약점 검토</h2>
+              </div>
+              <button class="button secondary small" type="button" id="copyGuide">가이드 복사</button>
+            </div>
+            <div class="findings-table">
+              <button class="finding selected" data-finding="cookie" type="button">
+                <span class="severity high">High</span>
+                <strong>Secure Cookie 미설정</strong>
+                <small>CWE-614</small>
+              </button>
+              <button class="finding" data-finding="storage" type="button">
+                <span class="severity high">High</span>
+                <strong>LocalStorage Token 저장 의심</strong>
+                <small>CWE-922</small>
+              </button>
+              <button class="finding" data-finding="csp" type="button">
+                <span class="severity medium">Medium</span>
+                <strong>Content-Security-Policy 미설정</strong>
+                <small>CWE-693</small>
+              </button>
+              <button class="finding" data-finding="server" type="button">
+                <span class="severity low">Low</span>
+                <strong>Server Header 정보노출</strong>
+                <small>CWE-200</small>
+              </button>
+            </div>
+          </article>
+        </section>
+
+        <section class="detail-grid">
+          <article class="panel detail-panel">
+            <div class="section-head">
+              <div>
+                <p class="overline">Analysis</p>
+                <h2 id="detailTitle">Secure Cookie 미설정</h2>
+              </div>
+              <span class="pill danger" id="detailSeverity">High</span>
+            </div>
+            <dl class="detail-list">
+              <div><dt>탐지 근거</dt><dd id="detailEvidence">SESSIONID Cookie에 Secure 속성이 없음. Cookie Value는 [MASKED] 처리됨.</dd></div>
+              <div><dt>OWASP / CWE</dt><dd id="detailMapping">A02 Cryptographic Failures / CWE-614</dd></div>
+              <div><dt>영향도</dt><dd id="detailImpact">HTTPS 환경에서도 비보안 채널 전송 가능성이 존재할 수 있음.</dd></div>
+              <div><dt>검증 방법</dt><dd id="detailVerify">브라우저 개발자 도구 Application > Cookies에서 Secure 속성을 확인.</dd></div>
+              <div><dt>False Positive</dt><dd id="detailFp">비인증 Cookie이거나 내부 테스트 환경이면 실제 영향도는 낮을 수 있음.</dd></div>
+            </dl>
+          </article>
+
+          <article class="panel report-panel" id="report">
+            <div class="section-head">
+              <div>
+                <p class="overline">Report</p>
+                <h2>Markdown 보고서</h2>
+              </div>
+              <button class="button primary small" type="button">Export</button>
+            </div>
+            <pre><code># 웹 취약점 분석 보고서
+
+## Executive Summary
+- 전체 위험도: Medium
+- 분석 대상: service.company.co.kr/login
+- 주요 Finding: Secure Cookie 미설정, CSP 미설정
+
+## 취약점 목록
+| 위험도 | 취약점명 | CWE |
+| High | Secure Cookie 미설정 | CWE-614 |
+| Medium | CSP 미설정 | CWE-693 |
+
+본 결과는 AI 기반 분석 결과이며, 실제 취약점 확정 전 보안 담당자의 수동 검증이 필요합니다.</code></pre>
+          </article>
+        </section>
+
+        <section class="control-grid" id="controls">
+          <article class="panel policy-card">
+            <span>Domain Allowlist</span>
+            <strong>승인 도메인만 분석</strong>
+            <p>*.company.co.kr, stg.company.co.kr, localhost</p>
+          </article>
+          <article class="panel policy-card">
+            <span>Masking Policy</span>
+            <strong>AI 전송 전 제거</strong>
+            <p>Cookie Value, Authorization, JWT Signature</p>
+          </article>
+          <article class="panel policy-card">
+            <span>Audit Log</span>
+            <strong>분석 이력 추적</strong>
+            <p>사용자, URL, 분석 일시, 마스킹 여부</p>
+          </article>
+          <article class="panel policy-card">
+            <span>Exploit Control</span>
+            <strong>자동 공격 금지</strong>
+            <p>Payload 실행, 대량 스캔, 인증 우회 제외</p>
+          </article>
+        </section>
+      </main>
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>
