@@ -137,8 +137,26 @@
             </div>
           </div>
 
-          <div class="assets-table" id="assetsList">
-            <!-- 더미 데이터가 여기에 렌더링 됩니다 -->
+          <div class="assets-grid-wrap">
+            <div class="assets-table" id="assetsList">
+              <!-- 더미 데이터가 여기에 렌더링 됩니다 -->
+            </div>
+            <aside class="asset-detail" id="assetDetail" aria-live="polite">
+              <h3>자산 상세</h3>
+              <div class="asset-meta">
+                <p><strong>ID:</strong> <span id="detail_asset_id">-</span></p>
+                <p><strong>이름:</strong> <span id="detail_name">-</span></p>
+                <p><strong>서브도메인:</strong> <span id="detail_subdomain">-</span></p>
+                <p><strong>IP:</strong> <span id="detail_ip">-</span></p>
+                <p><strong>유형:</strong> <span id="detail_type">-</span></p>
+                <p><strong>상태:</strong> <span id="detail_status">-</span></p>
+                <p><strong>중대/높음:</strong> <span id="detail_critical">-</span> / <span id="detail_high">-</span></p>
+                <p><strong>최종탐지:</strong> <span id="detail_last_seen">-</span></p>
+              </div>
+              <div style="margin-top:12px">
+                <button class="button primary" id="openInDetailPanel">Open in Analysis</button>
+              </div>
+            </aside>
           </div>
         </section>
 

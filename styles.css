@@ -433,6 +433,31 @@ h1 {
   font-weight: 700;
 }
 
+.assets-grid-wrap {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 18px;
+}
+
+.asset-detail {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  min-height: 220px;
+}
+
+.asset-detail h3 {
+  margin-top: 0;
+  color: var(--accent);
+}
+
+.asset-meta p {
+  margin: 8px 0;
+  color: var(--text);
+  font-size: 13px;
+}
+
 .work-grid {
   display: grid;
   grid-template-columns: 1fr 420px;

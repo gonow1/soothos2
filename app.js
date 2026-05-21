@@ -105,30 +105,23 @@ function safeHost(value) {
 }
 
 // --- Frontend scaffold: dummy assets rendering ---
-const assets = [
-  {
-    id: 'asset-001',
-    name: 'service.company.co.kr',
-    subdomain: 'service.company.co.kr',
-    ip: '10.1.2.34',
-    status: 'active',
-    asset_type: 'web',
-    critical: 2,
-    high: 1,
-    last_seen: '2026-05-21T10:12:00'
-  },
-  {
-    id: 'asset-002',
-    name: 'api.company.co.kr',
-    subdomain: 'api.company.co.kr',
-    ip: '10.1.2.35',
-    status: 'active',
-    asset_type: 'api',
-    critical: 0,
-    high: 1,
-    last_seen: '2026-05-20T16:20:00'
+let assets = [];
+
+async function loadAssets() {
+  try {
+    const res = await fetch('./data/sample-assets.json');
+    if (!res.ok) throw new Error('Fetch failed');
+    const body = await res.json();
+    assets = body.assets || [];
+  } catch (e) {
+    // fallback to inline sample if fetch fails
+    assets = [
+      { id: 'asset-001', name: 'service.company.co.kr', subdomain: 'service.company.co.kr', ip: '10.1.2.34', status: 'active', asset_type: 'web', critical: 2, high: 1, last_seen: '2026-05-21T10:12:00' },
+      { id: 'asset-002', name: 'api.company.co.kr', subdomain: 'api.company.co.kr', ip: '10.1.2.35', status: 'active', asset_type: 'api', critical: 0, high: 1, last_seen: '2026-05-20T16:20:00' }
+    ];
   }
-];
+  renderAssets();
+}
 
 function renderAssets() {
   const container = document.getElementById('assetsList');
@@ -146,7 +139,7 @@ function renderAssets() {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${a.id}</td>
-      <td><a href="#" class="asset-link">${a.name}</a></td>
+      <td><a href="#" class="asset-link" data-asset-id="${a.id}">${a.name}</a></td>
       <td>${a.ip}</td>
       <td>${a.asset_type}</td>
       <td>${a.status}</td>
@@ -158,9 +151,37 @@ function renderAssets() {
   });
   table.appendChild(tbody);
   container.appendChild(table);
+
+  // attach click handlers
+  container.querySelectorAll('a.asset-link').forEach(a => {
+    a.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      const id = a.dataset.assetId;
+      const asset = assets.find(x => x.id === id);
+      if (asset) showAssetDetail(asset);
+    });
+  });
+}
+
+function showAssetDetail(asset) {
+  document.getElementById('detail_asset_id').textContent = asset.id || '-';
+  document.getElementById('detail_name').textContent = asset.name || '-';
+  document.getElementById('detail_subdomain').textContent = asset.subdomain || '-';
+  document.getElementById('detail_ip').textContent = asset.ip || '-';
+  document.getElementById('detail_type').textContent = asset.asset_type || '-';
+  document.getElementById('detail_status').textContent = asset.status || '-';
+  document.getElementById('detail_critical').textContent = asset.critical ?? '-';
+  document.getElementById('detail_high').textContent = asset.high ?? '-';
+  document.getElementById('detail_last_seen').textContent = asset.last_seen || '-';
+
+  // optional: focus/open analysis view
+  document.getElementById('openInDetailPanel')?.addEventListener('click', () => {
+    // scroll to findings/detail section for now
+    document.querySelector('#findings')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderAssets();
-  document.getElementById('refreshAssets')?.addEventListener('click', renderAssets);
+  loadAssets();
+  document.getElementById('refreshAssets')?.addEventListener('click', loadAssets);
 });

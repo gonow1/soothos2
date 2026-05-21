@@ -1,0 +1,26 @@
+{
+  "assets": [
+    {
+      "id": "asset-001",
+      "name": "service.company.co.kr",
+      "subdomain": "service.company.co.kr",
+      "ip": "10.1.2.34",
+      "status": "active",
+      "asset_type": "web",
+      "critical": 2,
+      "high": 1,
+      "last_seen": "2026-05-21T10:12:00"
+    },
+    {
+      "id": "asset-002",
+      "name": "api.company.co.kr",
+      "subdomain": "api.company.co.kr",
+      "ip": "10.1.2.35",
+      "status": "active",
+      "asset_type": "api",
+      "critical": 0,
+      "high": 1,
+      "last_seen": "2026-05-20T16:20:00"
+    }
+  ]
+}
